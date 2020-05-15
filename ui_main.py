@@ -354,7 +354,6 @@ class mywin(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == '__main__':
-   
     app = QApplication(sys.argv)
     myui = mywin()
     myui.show()
