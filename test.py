@@ -7,6 +7,9 @@ import requests
 from urllib3.contrib.socks import SOCKSProxyManager
 import urllib3.contrib.pyopenssl
 import certifi
+import socket
+import socks
+import requests
 
 from urllib import request
 
@@ -24,22 +27,32 @@ proxy = proxies[0]
 
 
 header={'User-Agent': 
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36'}
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36'}
 
 
 
-proxy = SOCKSProxyManager('socks5://localhost:1080/',headers=header,timeout=urllib3.Timeout(connect=10.0, read=20.0))
+
+
+
+socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1080)
+socket.socket = socks.socksocket
+r = requests.get("https://www.youtube.com/")
+
+print(r)
+print('debug')
+
+#proxy = SOCKSProxyManager('socks5://localhost:1080/',headers=header,timeout=urllib3.Timeout(connect=10.0, read=20.0))
 
 
 #req=urllib.request.Request(tiles_url,headers=header)
 
 #req1=requests.get(tiles_url,headers=header,timeout=1000)
 #response = urllib.request.urlopen(req,timeout=1000)
-req=proxy.urlopen('GET',tiles_url)
+#req=proxy.urlopen('GET',tiles_url)
 
 
-http=urllib3.PoolManager(num_pools=2, headers=header,timeout=100)
-req1=http.urlopen('GET',tiles_url2)
+#http=urllib3.PoolManager(num_pools=2, headers=header,timeout=100)
+#req1=http.urlopen('GET',tiles_url2)
 
 
 
