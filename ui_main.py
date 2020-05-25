@@ -4,18 +4,18 @@ import sys
 import time
 import json
 
-from PIL import Image, ImageFile
-
-from PyQt5 import QtGui
-from PyQt5.QtCore import QObject, QSettings, Qt, QThread, QUrl, pyqtSlot,pyqtSignal
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWebChannel import QWebChannel
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsPixmapItem,
-                             QGraphicsScene, QMainWindow, QMessageBox)
-
+#from PIL import Image, ImageFile
 from pyMap import map_Download
 from PyQt5Ui.Ui_mainWindows import Ui_MainWindow
+
+import cv2
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtCore import QThread, pyqtSignal, QObject, pyqtSlot
+from PyQt5.QtWidgets import QMainWindow, QApplication
+#from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebChannel import QWebChannel
+
+#from PyQt5.Qt import WindowFlags
 
 
 class ui_tileDownload(QThread, map_Download,QMainWindow):
@@ -30,7 +30,7 @@ class ui_tileDownload(QThread, map_Download,QMainWindow):
             [起始纬度, 起始经度, 终止纬度, 终止经度]
 
         """
-        super().__init__(parent=parent)
+        super().__init__()
 
         # 起始点得纬度和经度
         self.start_lat = float(argsList[0])
@@ -169,7 +169,7 @@ class TInteractObj(QObject):
 
 
 class mywin(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None, flags=Qt.WindowFlags()):
+    def __init__(self, parent=None,flags=Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
         super(mywin, self).__init__(parent)
         self.setupUi(self)
@@ -315,7 +315,7 @@ class mywin(QMainWindow, Ui_MainWindow):
         self.backend.proValue.connect(self.handleProgress)
         self.backend.start()
 
-        self.backend.finished.connect(lambda:self.viewRes(meger_dir))
+        #self.backend.finished.connect(lambda:self.viewRes(meger_dir))
     
     def viewRes(self,img_dir):
         ImageFile.LOAD_TRUNCATED_IMAGES = True

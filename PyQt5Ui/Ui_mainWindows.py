@@ -8,17 +8,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 # add on 
-from PyQt5.QtCore import *
-from PyQt5.QtCore import QObject, QUrl, pyqtSlot
-from PyQt5.QtGui import *
-from PyQt5.QtWebChannel import QWebChannel
-from PyQt5.QtWebEngineWidgets import *
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QApplication
 
 
 class Ui_MainWindow(object):

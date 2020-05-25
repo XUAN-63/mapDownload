@@ -4,10 +4,7 @@ import os
 import random
 import sys
 import urllib.request
-
-import numpy as np
-from PIL import Image
-from tqdm import tqdm, trange
+#from PIL import Image
 from pyasn1.type.univ import Null
 
 
@@ -205,7 +202,7 @@ class map_Download():
         map_url = self.url_dict[self.map_type]
 
         # 循环下载每个地图瓦片
-        for x in tqdm(range(start_x, stop_x)):
+        for x in range(start_x, stop_x):
             id_y = 0
             for y in range(start_y, stop_y):
 
