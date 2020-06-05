@@ -3,8 +3,6 @@ import math
 import os
 import random
 import sys
-import urllib.request
-#from PIL import Image
 from pyasn1.type.univ import Null
 
 
@@ -27,6 +25,86 @@ def swapValue(v1, v2):
     v1 = v2
     v2 = tmp
     return v1, v2
+
+
+class TilesParse():
+    """
+    瓦片地址解析
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.baseUrl = {'google_sat': 'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&'}
+
+        # 经纬度范围和缩放层级
+        self.startLatLon=[]
+        self.stopLatLon=[]
+        self.map_zoom=1
+
+        # 起始点的x, y坐标
+        self._start_xy = []
+        self._stop_xy = []
+
+        # 地图的类型
+        self.map_type = 'google_sat'
+
+    def args_input(self,
+                   start_latlon: float = ...,
+                   stop_latlon: float = ...,
+                   map_zoom: int = ...,
+                   map_type='google_sat'
+                   ):
+        """
+            根据输入参数赋值类参数
+
+        Arguments:
+            start_latlon {list} -- 起始点[纬度,经度]
+            stop_latlon {list} -- 终点[纬度,经度]
+            img_zoom   {int} -- 地图的缩放层级
+            out_dir {string} -- 瓦片地图的存储路径
+            img_type {string} -- 地图的类型,默认谷歌卫星图
+            img_name {string} -- 拼接后的文件名,默认"merged.png"
+        """
+        # 起始点的纬度和经度
+        self.startLatLon=start_latlon
+        self.stopLatLon=stop_latlon
+        #地图缩放层级
+        self.zoom=map_zoom
+        #地图类型
+        self.map_type=map_type
+    
+
+    def tilesNums(self):
+        """
+            计算区域起终点的坐标
+        """
+        # 起点和重点的瓦片坐标
+        start_x, start_y = latlon2xy(self.zoom, self.startLatLon[0], self.startLatLon[1])
+        stop_x, stop_y = latlon2xy(self.zoom, self.stopLatLon[0], self.stopLatLon[1])
+
+        # 控制结束编号大于起始编号
+        if(start_x > stop_x):
+            start_x, stop_x = swapValue(start_x, stop_x)
+
+        if(start_y, stop_y):
+            start_y, stop_y = swapValue(start_y, stop_y)
+
+        self._start_xy = [start_x, start_y]
+        self._stop_xy = [stop_x, stop_y]
+    
+  
+    def tileUrl(self,x,y):
+
+        tiles_url=""
+        try:
+            tiles_url=self.baseUrl[self.map_type]+"x=" + \
+                    str(x)+"&y="+str(y)+"&z="+str(self.map_zoom)
+        except KeyError as identifier:
+            print(identifier)
+
+        return tiles_url
+        
 
 
 class map_Download():
